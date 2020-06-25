@@ -7,6 +7,7 @@
 * Terminal: alacritty
 * Bar: polybar
 * Application launcher: rofi
+* File manager: ranger
 
 ### HomePage
 Credits to [nytly](https://notabug.org/nytly)
