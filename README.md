@@ -8,6 +8,7 @@
 * Bar: polybar
 * Application launcher: rofi
 * File manager: ranger
+* Lock screen: betterlockscreen
 
 ### HomePage
 Credits to [nytly](https://notabug.org/nytly)
