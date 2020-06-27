@@ -18,9 +18,18 @@ super + r
 super + w
 	firefox
 
+# flameshot
+super + p
+	flameshot gui
+
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
+
+# lockscreen
+super + l
+	betterlockscreen -u wp.jpg --lock blur
+
 
 #
 # bspwm hotkeys
