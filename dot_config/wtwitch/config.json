@@ -1,0 +1,15 @@
+{
+  "player": "mpv",
+  "quality": "best",
+  "colors": "true",
+  "printOfflineSubscriptions": "true",
+  "subscriptions": [
+    {
+      "streamer": "boxbox"
+    },
+    {
+      "streamer": "tarik"
+    }
+  ],
+  "lastSubscriptionUpdate": "1675783148"
+}
