@@ -1,9 +1,9 @@
 #!/bin/sh
 
-sudo apt install bspwm sxhkd polybar compton rofi dunst nitrogen ranger cmus redshift i3lock xorg
+sudo apt install bspwm sxhkd polybar compton rofi dunst nitrogen ranger cmus redshift i3lock xorg zathura
 
-cp -r ~/dotfiles/dot_config/* ~/.config/
-cp ~/dotfiles/.zshrc ~/
-cp ~/dotfiles/.xinitrc ~/
+cp -r ./dot_config/* ~/.config/
+cp ./.zshrc ~/
+cp ./.xinitrc ~/
 
 chmod u+x ~/.config/bspwm/bspwmrc
