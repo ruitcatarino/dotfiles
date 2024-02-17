@@ -1,7 +1,3 @@
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 export PATH=$HOME/.local/bin:$PATH
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -33,10 +29,6 @@ eval "$(register-python-argcomplete _ssh-icarus-cloud)"
 eval "$(register-python-argcomplete iter_envs)"
 eval "$(register-python-argcomplete goku)"
 eval "$(zoxide init --cmd cd zsh)"
-
-source ~/docs/powerlevel10k/powerlevel10k.zsh-theme
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
