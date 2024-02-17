@@ -4,7 +4,5 @@ font:
 cursor:
   style:
     shape: Beam
-    blinking: Always
-  blink_interval: 500
+    blinking: No
   unfocused_hollow: true
-  thickness: 0.15
