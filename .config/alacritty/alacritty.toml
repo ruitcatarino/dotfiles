@@ -1,2 +1,2 @@
 [cursor]
-style = "Beam"
+style = { "Beam", "Off" }
