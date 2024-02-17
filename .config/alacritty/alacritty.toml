@@ -1,2 +1,3 @@
 [cursor]
 style = { "Beam", "Off" }
+unfocused_hollow = true
