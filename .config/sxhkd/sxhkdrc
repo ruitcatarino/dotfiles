@@ -6,6 +6,10 @@
 super + t
 	alacritty
 
+# terminal emulator
+super + alt + t
+        terminator
+
 # program launcher
 super + @space
 	rofi -show drun
