@@ -19,7 +19,8 @@ alias dcl="docker compose logs -f"
 alias edp="xrandr --output eDP-1 --primary --mode 1920x1080 --rotate normal --output DP-2 --mode 1920x1080 --rotate normal --above eDP-1"
 alias ehdmi="xrandr --output eDP-1 --primary --mode 1920x1080 --rotate normal --output HDMI-1 --mode 1920x1080 --rotate normal --above eDP-1"
 alias eoff="xrandr --output DP-2 --off && xrandr --output HDMI-1 --off"
-alias python="python3"
+alias vlrgg="python3 ~/docs/vlrgg/vlrgg.py"
+alias wtwitch="~/docs/wtwitch/src/wtwitch"
 
 SSH_ICARUS_PATH=/home/rtc/projects/ssh-icarus
 if [ -f $SSH_ICARUS_PATH/.bashrc ]; then

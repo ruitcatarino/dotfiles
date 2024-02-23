@@ -1,0 +1,18 @@
+{
+  "player": "mpv",
+  "quality": "720p,720p60,1080p60,best",
+  "colors": "true",
+  "printOfflineSubscriptions": "true",
+  "subscriptions": [
+    {
+      "streamer": "tarik"
+    },
+    {
+      "streamer": "loltyler1"
+    },
+    {
+      "streamer": "boxbox"
+    }
+  ],
+  "lastSubscriptionUpdate": "null"
+}

@@ -4,7 +4,7 @@ pgrep -x sxhkd > /dev/null || sxhkd &
 
 #Auto-start Programs
 picom --config /home/rtc/.config/picom/picom.conf &
-feh --bg-scale ~/wallpaper.jpg &
+feh --bg-scale ~/docs/wallpaper.jpg &
 /home/rtc/.config/polybar/launch.sh &
 
 bspc monitor eDP-1 -d 1 2 3 4 5 6 7 8
