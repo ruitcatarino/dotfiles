@@ -1,6 +1,6 @@
 {
   "player": "mpv",
-  "quality": "720p,720p60,1080p60,best",
+  "quality": "1080p60,best,720p60,720p",
   "colors": "true",
   "printOfflineSubscriptions": "true",
   "subscriptions": [
@@ -12,7 +12,10 @@
     },
     {
       "streamer": "boxbox"
+    },
+    {
+      "streamer": "kyedae"
     }
   ],
-  "lastSubscriptionUpdate": "null"
+  "lastSubscriptionUpdate": "1708722073"
 }

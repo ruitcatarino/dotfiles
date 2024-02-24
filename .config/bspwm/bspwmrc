@@ -8,6 +8,10 @@ feh --bg-scale ~/docs/wallpaper.jpg &
 /home/rtc/.config/polybar/launch.sh &
 
 bspc monitor eDP-1 -d 1 2 3 4 5 6 7 8
+bspc monitor DP-2 -d External
+bspc monitor HDMI-1 -d External
+
+bspc wm -O eDP-1 DP-2 HDMI-1
 
 bspc config border_width         2
 bspc config window_gap          12
