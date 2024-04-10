@@ -7,11 +7,22 @@ picom --config /home/rtc/.config/picom/picom.conf &
 feh --bg-scale ~/docs/wallpaper.jpg &
 /home/rtc/.config/polybar/launch.sh &
 
-bspc monitor eDP-1 -d 1 2 3 4 5 6 7 8
-bspc monitor DP-2 -d External
-bspc monitor HDMI-1 -d External
+connected_monitors=$(xrandr --query | grep " connected" | cut -d" " -f1)
 
-bspc wm -O eDP-1 DP-2 HDMI-1
+bspc monitor -d 1 2 3 4 5 6 7 8 9 0
+
+for monitor in $connected_monitors; do
+    case $monitor in
+        eDP-1)
+            bspc monitor $monitor -d 6 7 8 9 0
+            ;;
+        HDMI-1|DP-2)
+            bspc monitor $monitor -d 1 2 3 4 5
+            ;;
+    esac
+done
+
+bspc wm -O DP-2 eDP-1
 
 bspc config border_width         2
 bspc config window_gap          12
