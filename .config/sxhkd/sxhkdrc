@@ -18,6 +18,14 @@ super + @space
 super + f
 	firefox-esr
 
+# Thunar
+super + e
+	thunar
+
+# Thunar
+super + c
+	code
+
 # make sxhkd reload its configuration files:
 super + alt + s
 	pkill -USR1 -x sxhkd
