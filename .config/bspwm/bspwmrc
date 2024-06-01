@@ -5,7 +5,7 @@ pgrep -x sxhkd > /dev/null || sxhkd &
 #Auto-start Programs
 picom --config /home/rtc/.config/picom/picom.conf &
 feh --bg-scale ~/docs/wallpaper.jpg &
-/home/rtc/.config/polybar/launch.sh &
+~/.config/polybar/launch.sh &
 
 connected_monitors=$(xrandr --query | grep " connected" | cut -d" " -f1)
 
