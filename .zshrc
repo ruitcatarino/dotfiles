@@ -23,12 +23,12 @@ alias dcup="docker compose up --remove-orphans --force-recreate -d"
 
 kea() {
     if [ "$#" -ne 3 ]; then
-        echo "Usage: kea -n <namespace> <app_name>"
+        printf "Usage: kea -n <namespace> <app_name>"
         return 1
     fi
     
     if [ "$1" != "-n" ]; then
-        echo "First argument must be -n"
+        printf "First argument must be -n"
         return 1
     fi
     
@@ -40,19 +40,31 @@ kea() {
     -- python manage.py shell
 }
 
-kla() {
+ka() {
     if [ "$#" -ne 2 ]; then
-        echo "Usage: kla -n <namespace>"
+        printf "Usage: ka -n <namespace>"
         return 1
     fi
     
     if [ "$1" != "-n" ]; then
-        echo "First argument must be -n"
+        printf "First argument must be -n"
         return 1
     fi
     
     namespace="$2"
     
-    echo "Listing apps (pods) in namespace: $namespace"
+    printf "Listing apps (pods) in namespace: $namespace"
     kubectl -n "$namespace" get pods -o custom-columns="NAME:.metadata.name,APP:.metadata.labels.app,STATUS:.status.phase,RESTARTS:.status.containerStatuses[0].restartCount,AGE:.metadata.creationTimestamp"
+}
+
+kla() {
+    if [ "$#" -ne 4 ] || [ "$1" != "-n" ] || [ "$3" != "-a" ]; then
+        printf "Usage: kla -n <namespace> -a <app_label>"
+        return 1
+    fi
+    
+    namespace="$2"
+    app_label="$4"
+    
+    kubectl -n "$namespace" logs -f -l app="$app_label" --tail=250 --max-log-requests 10
 }
