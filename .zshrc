@@ -22,13 +22,21 @@ alias eoff="xrandr --output DP-2 --off && xrandr --output HDMI-1 --off"
 alias dcup="docker compose up --remove-orphans --force-recreate -d"
 
 kea() {
+    if [ "$1" = "-h" ]; then
+        printf "kea: Execute the Django shell in a specific pod of an app.\n"
+        printf "Usage: kea -n <namespace> <app_name>\n"
+        printf "Example: kea -n my-namespace my-app\n"
+        return 0
+    fi
+    
     if [ "$#" -ne 3 ]; then
-        printf "Usage: kea -n <namespace> <app_name>"
+        kea -h
         return 1
     fi
     
     if [ "$1" != "-n" ]; then
-        printf "First argument must be -n"
+        printf "First argument must be -n\n"
+        kea -h
         return 1
     fi
     
@@ -40,31 +48,46 @@ kea() {
     -- python manage.py shell
 }
 
-ka() {
+kps() {
+    if [ "$1" = "-h" ]; then
+        printf "kps: List all pods in a specific namespace.\n"
+        printf "Usage: kps -n <namespace>\n"
+        printf "Example: kps -n my-namespace\n"
+        return 0
+    fi
+    
     if [ "$#" -ne 2 ]; then
-        printf "Usage: ka -n <namespace>"
+        kps -h
         return 1
     fi
     
     if [ "$1" != "-n" ]; then
-        printf "First argument must be -n"
+        printf "First argument must be -n\n"
+        kps -h
         return 1
     fi
     
     namespace="$2"
     
-    printf "Listing apps (pods) in namespace: $namespace"
+    printf "Listing pods in namespace: $namespace\n"
     kubectl -n "$namespace" get pods -o custom-columns="NAME:.metadata.name,APP:.metadata.labels.app,STATUS:.status.phase,RESTARTS:.status.containerStatuses[0].restartCount,AGE:.metadata.creationTimestamp"
 }
 
 kla() {
-    if [ "$#" -ne 4 ] || [ "$1" != "-n" ] || [ "$3" != "-a" ]; then
-        printf "Usage: kla -n <namespace> -a <app_label>"
+    if [ "$1" = "-h" ]; then
+        printf "kla: Tail the logs of all pods with a specific label in a namespace.\n"
+        printf "Usage: kla -n <namespace> <app_label>\n"
+        printf "Example: kla -n my-namespace my-app-label\n"
+        return 0
+    fi
+
+    if [ "$#" -ne 3 ] || [ "$1" != "-n" ]; then
+        kla -h
         return 1
     fi
     
     namespace="$2"
-    app_label="$4"
+    app_label="$3"
     
     kubectl -n "$namespace" logs -f -l app="$app_label" --tail=250 --max-log-requests 10
 }
