@@ -7,20 +7,39 @@ picom --config /home/rtc/.config/picom/picom.conf &
 feh --bg-scale ~/docs/wallpaper.jpg &
 ~/.config/polybar/launch.sh &
 
+# Fetch the list of connected monitors
 connected_monitors=$(xrandr --query | grep " connected" | cut -d" " -f1)
 
+# Debugging: Print connected monitors
+echo "Connected monitors: $connected_monitors"
+
+# Assign all desktops initially to avoid conflicts
 bspc monitor -d 1 2 3 4 5 6 7 8 9 0
 
-for monitor in $connected_monitors; do
-    case $monitor in
-        eDP-1)
-            bspc monitor $monitor -d 8 9 0
-            ;;
-        HDMI-1|DP-2)
-            bspc monitor $monitor -d 1 2 3 4 5 6 7
-            ;;
-    esac
-done
+# Check if only eDP-1 is connected
+if [ "$connected_monitors" = "eDP-1" ]; then
+    echo "Only eDP-1 is connected."
+    bspc monitor eDP-1 -d 1 2 3 4 5 6 7 8 9 0
+else
+    echo "Multiple monitors detected: $connected_monitors"
+    # Loop through each connected monitor and assign desktops
+    for monitor in $connected_monitors; do
+        echo "Configuring monitor: $monitor"
+        case $monitor in
+            eDP-1)
+                echo "Assigning desktops 8, 9, 0 to eDP-1"
+                bspc monitor $monitor -d 8 9 0
+                ;;
+            HDMI-1|DP-2)
+                echo "Assigning desktops 1-7 to $monitor"
+                bspc monitor $monitor -d 1 2 3 4 5 6 7
+                ;;
+            *)
+                echo "Unknown monitor: $monitor"
+                ;;
+        esac
+    done
+fi
 
 bspc wm -O DP-2 eDP-1
 
