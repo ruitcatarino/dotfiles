@@ -1,7 +1,7 @@
 find_docker_compose() {
     local paths=("." "./deployment" "./deployment/local" "./docker" "./local")
     for dir in "${paths[@]}"; do
-        if [[ -f "$dir/docker-compose.yml" || -f "$dir/docker-compose.override.yml" ]]; then
+        if [[ -f "$dir/docker-compose.yml" || -f "$dir/compose.yml" ]]; then
             echo "$dir"
             return
         fi
@@ -9,13 +9,12 @@ find_docker_compose() {
     echo ""
 }
 
-
 dc() {
     local compose_dir
     compose_dir=$(find_docker_compose)
     
     if [[ -z "$compose_dir" ]]; then
-        echo "No docker-compose.yml found in the expected directories." >&2
+        echo "No docker-compose.yml or compose.yml found in the expected directories." >&2
         return 1
     fi
     
