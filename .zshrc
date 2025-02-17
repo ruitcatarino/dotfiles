@@ -2,7 +2,7 @@ export PATH=$HOME/.local/bin:$PATH
 export PATH=$PATH:/usr/local/go/bin
 export ZSH="$HOME/.oh-my-zsh"
 
-ZSH_THEME="mine"
+ZSH_THEME="af-magic-kube"
 
 plugins=(git poetry zsh-autosuggestions kubectl sudo)
 
