@@ -4,7 +4,14 @@ export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="af-magic-kube"
 
-plugins=(git poetry zsh-autosuggestions kubectl sudo)
+plugins=(
+git
+poetry
+zsh-autosuggestions
+zsh-syntax-highlighting
+kubectl
+sudo
+)
 
 source $ZSH/oh-my-zsh.sh
 
