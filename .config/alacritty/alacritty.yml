@@ -3,6 +3,11 @@ font:
   normal:
     family: JetBrains Mono
 
+window:
+  dimensions:
+    columns: 180
+    lines: 40
+
 cursor:
   style:
     shape: Beam
