@@ -22,7 +22,7 @@ dc() {
 }
 
 dce() { dc exec "$@"; }
-dcl() { dc logs -f; }
+dcl() { dc logs -f "$@"; }
 dcu() { dc up -d --force-recreate --remove-orphans; }
 dcb() { dc build --no-cache; }
 dcd() { dc down; }
