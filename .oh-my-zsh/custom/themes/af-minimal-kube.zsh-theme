@@ -1,24 +1,9 @@
 # af-minimal-kube.zsh-theme
 #
-# Adaptation of af-magic.zsh-theme with Kubernetes context
-# Modified to display only the last part of the current path
+# Adaptation of af-magic.zsh-theme with Kubernetes context, displays only the last part of the current path, and no dashes
 #
 # Author: Andy Fleming (Original af-magic)
 # Adapted by: Rui Catarino
-
-# Function to calculate the dashed separator size
-function afmagic_dashes {
-  local python_env_dir="${VIRTUAL_ENV:-$CONDA_DEFAULT_ENV}"
-  local python_env="${python_env_dir##*/}"
-
-  if [[ -n "$python_env" && "$PS1" = *\(${python_env}\)* ]]; then
-    echo $(( COLUMNS - ${#python_env} - 3 ))
-  elif [[ -n "$VIRTUAL_ENV_PROMPT" && "$PS1" = *${VIRTUAL_ENV_PROMPT}* ]]; then
-    echo $(( COLUMNS - ${#VIRTUAL_ENV_PROMPT} ))
-  else
-    echo $COLUMNS
-  fi
-}
 
 # Function to get the current Kubernetes context
 function kubectl_context() {
@@ -27,9 +12,8 @@ function kubectl_context() {
   fi
 }
 
-# Primary prompt: displays a dashed separator, last part of the directory, and VCS info
-PS1="${FG[237]}\${(l.$(afmagic_dashes)..-.)}%{$reset_color%}
-${FG[032]}%c\$(git_prompt_info)\$(hg_prompt_info) ${FG[105]}%(!.#.»)%{$reset_color%} "
+# Primary prompt: displays last part of the directory and VCS info
+PS1="${FG[032]}%c\$(git_prompt_info)\$(hg_prompt_info) ${FG[105]}%(!.#.»)%{$reset_color%} "
 PS2="%{$fg[red]%}\ %{$reset_color%}"
 
 # Right prompt: return code, virtualenv, user@host, and Kubernetes context
