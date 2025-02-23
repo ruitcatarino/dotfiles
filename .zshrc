@@ -15,10 +15,13 @@ sudo
 
 source $ZSH/oh-my-zsh.sh
 
-eval "$(zoxide init zsh)"
+if [ -d "$HOME/miniconda3" ]; then
+  source "$HOME/miniconda3/bin/activate"
+fi
 
-alias cd="z"
-
-source ~/miniconda3/bin/activate
 source ~/.kubectl_helper.sh
 source ~/.docker_helper.sh
+
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init --cmd cd zsh)"
+fi
