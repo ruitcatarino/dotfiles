@@ -27,3 +27,4 @@ dcu() { dc up -d --force-recreate --remove-orphans; }
 dcb() { dc build --no-cache; }
 dcd() { dc down; }
 dcul() { dcu && dcl; }
+dcub() { dcu && dcb; }
