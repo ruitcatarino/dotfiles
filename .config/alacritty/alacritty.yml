@@ -1,0 +1,19 @@
+font:
+  size: 10.5
+  normal:
+    family: JetBrains Mono
+window:
+  dimensions:
+    columns: 180
+    lines: 40
+cursor:
+  style:
+    shape: Beam
+    blinking: Never
+  unfocused_hollow: true
+
+selection:
+  save_to_clipboard: true
+
+mouse_bindings:
+  - { mouse: Right, action: Paste }
