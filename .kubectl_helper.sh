@@ -95,23 +95,25 @@ kps() {
     if [ "$1" = "-h" ]; then
         printf "kps: List all pods in a specific namespace.\n"
         printf "Usage: kps -n <namespace>\n"
+        printf "If no namespace is provided, it lists all namespaces.\n"
         printf "Example: kps -n my-namespace\n"
         return 0
     fi
-    
-    if [ "$#" -ne 2 ]; then
+
+    if [ "$#" -eq 0 ]; then
+        printf "No namespace specified. Listing all namespaces:\n"
+        kubectl get ns
+        return 0
+    fi
+
+    if [ "$#" -ne 2 ] || [ "$1" != "-n" ]; then
+        printf "Invalid usage.\n"
         kps -h
         return 1
     fi
-    
-    if [ "$1" != "-n" ]; then
-        printf "First argument must be -n\n"
-        kps -h
-        return 1
-    fi
-    
+
     namespace="$2"
-    
+
     printf "Listing pods in namespace: $namespace\n"
     kubectl -n "$namespace" get pods -o custom-columns="NAME:.metadata.name,APP:.metadata.labels.app,STATUS:.status.phase,RESTARTS:.status.containerStatuses[0].restartCount,AGE:.metadata.creationTimestamp"
 }
