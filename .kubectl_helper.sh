@@ -200,3 +200,52 @@ keditconf() {
 
     kubectl edit configmap "$app_label" -n "$namespace"
 }
+
+### kcd, Change current context ###
+
+kcd() {
+    kubectl config use-context "$1"
+}
+
+_kcd_completions() {
+    local curr_arg
+    curr_arg="${COMP_WORDS[COMP_CWORD]}"
+    COMPREPLY=( $(compgen -W "$(kubectl config get-contexts -o name)" -- "$curr_arg") )
+}
+
+complete -F _kcd_completions kcd
+
+### alog, Login to AWS SSO profiles ###
+
+alog() {
+    local profiles=()
+    if [ $# -eq 0 ]; then
+        profiles=($(grep -h '^\[profile' ~/.aws/config | sed 's/\[profile \(.*\)\]/\1/'))
+        echo "No profiles specified, logging into all available profiles: ${profiles[*]}"
+    else
+        profiles=("$@")
+    fi
+
+    if [ ${#profiles[@]} -eq 0 ]; then
+        echo "Error: No AWS profiles found in your config"
+        echo "Usage: alog [profile1 profile2 ...]"
+        return 1
+    fi
+
+    for profile in "${profiles[@]}"; do
+        echo "Logging in to $profile..."
+        aws sso login --profile "$profile"
+    done
+
+    echo "All login attempts completed"
+}
+
+_alog_completions() {
+    local curr_arg
+    curr_arg="${COMP_WORDS[COMP_CWORD]}"
+    local aws_profiles
+    aws_profiles=$(grep -h '^\[profile' ~/.aws/config | sed 's/\[profile \(.*\)\]/\1/')
+    COMPREPLY=($(compgen -W "$aws_profiles" -- "$curr_arg"))
+}
+
+complete -F _alog_completions alog
