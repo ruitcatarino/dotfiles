@@ -2,7 +2,7 @@ export PATH=$HOME/.local/bin:$PATH
 export PATH=$PATH:/usr/local/go/bin
 export ZSH="$HOME/.oh-my-zsh"
 
-ZSH_THEME="af-minimal-kube"
+ZSH_THEME="af-kube"
 
 plugins=(
 git
