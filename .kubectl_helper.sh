@@ -24,7 +24,8 @@ fetch_cached_data() {
     fi
 }
 
-### kea, Execute a command within a specific pod ###
+
+### kea, Execute a command within a specific app ###
 
 kea() {
     if [ "$1" = "-h" ]; then
@@ -89,6 +90,70 @@ _kea_completion() {
 complete -F _kea_completion kea
 
 
+### kep, Execute a command within a specific pod (by pod name) ###
+
+kep() {
+    if [ "$1" = "-h" ]; then
+        printf "kep: Execute a command within a specific pod.\n"
+        printf "Usage: kep -n <namespace> <pod_name> [command]\n"
+        printf "Example: kep -n my-namespace my-pod-name\n"
+        printf "         kep -n my-namespace my-pod-name 'ls -l /app'\n"
+        printf "\nIf no [command] is provided, 'python manage.py shell' will be executed by default.\n"
+        return 0
+    fi
+
+    if [ "$#" -lt 3 ]; then
+        kep -h
+        return 1
+    fi
+
+    if [ "$1" != "-n" ]; then
+        printf "First argument must be -n\n"
+        kep -h
+        return 1
+    fi
+
+    local namespace="$2"
+    local pod_name="$3"
+    shift 3
+
+    if ! kubectl -n "$namespace" get pod "$pod_name" >/dev/null 2>&1; then
+        printf "Error: Pod '%s' not found in namespace '%s'\n" "$pod_name" "$namespace"
+        return 1
+    fi
+
+    if [ "$#" -eq 0 ]; then
+        kubectl -n "$namespace" exec -it "$pod_name" -- python manage.py shell
+    else
+        kubectl -n "$namespace" exec -it "$pod_name" -- "$@"
+    fi
+}
+
+_kep_completion() {
+    local cur prev opts
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+    opts="-n"
+
+    case "$prev" in
+        -n)
+            COMPREPLY=( $(fetch_cached_data "namespaces" "kubectl get ns -o custom-columns=':metadata.name' | tr -d '\r' | grep '^$cur'") )
+            ;;
+        *)
+            if [[ "${COMP_WORDS[1]}" == "-n" && "${COMP_WORDS[2]}" ]]; then
+                local namespace="${COMP_WORDS[2]}"
+                COMPREPLY=( $(fetch_cached_data "pods_$namespace" "kubectl -n $namespace get pod -o custom-columns=':metadata.name' | tr -d '\r' | grep '^$cur'") )
+            else
+                COMPREPLY=( $(compgen -W "$opts" -- "$cur") )
+            fi
+            ;;
+    esac
+}
+
+complete -F _kep_completion kep
+
+
 ### kps, List all pods in a specific namespace ###
 
 kps() {
@@ -133,6 +198,7 @@ _kps_completion() {
 }
 
 complete -F _kps_completion kps
+
 
 ### kla, Get the logs of all pods with a specific label ###
 
@@ -180,6 +246,7 @@ _kla_completion() {
 
 complete -F _kla_completion kla
 
+
 ### keditconf, Edit the configmap of such app. ###
 
 keditconf() {
@@ -200,6 +267,7 @@ keditconf() {
 
     kubectl edit configmap "$app_label" -n "$namespace"
 }
+
 
 ### kcd, Change current context ###
 
