@@ -18,10 +18,6 @@ source ~/.kubectl_helper.sh
 source ~/.docker_helper.sh
 source ~/.general_helper.sh
 
-if [ -d "$HOME/miniconda3" ]; then
-  source "$HOME/miniconda3/bin/activate"
-fi
-
 if command -v zoxide &> /dev/null; then
   eval "$(zoxide init --cmd cd zsh)"
 fi
