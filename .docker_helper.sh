@@ -12,12 +12,12 @@ find_docker_compose() {
 dc() {
     local compose_dir
     compose_dir=$(find_docker_compose)
-    
+
     if [[ -z "$compose_dir" ]]; then
         echo "No docker-compose.yml or compose.yml found in the expected directories." >&2
         return 1
     fi
-    
+
     docker compose --project-directory "$compose_dir" "$@"
 }
 

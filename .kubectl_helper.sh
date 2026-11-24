@@ -15,7 +15,7 @@ fetch_cached_data() {
 
     local cache_file="$CACHE_KUBE_DIR/${context}_$1"
     local command="$2"
-    
+
     if [[ -f "$cache_file" && $(($(date +%s) - $(stat -c %Y "$cache_file"))) -lt $CACHE_KUBE_DURATION ]]; then
         cat "$cache_file"
     else
@@ -36,30 +36,30 @@ kea() {
         printf "\nIf no [command] is provided, 'python manage.py shell' will be executed by default.\n"
         return 0
     fi
-    
+
     if [ "$#" -lt 3 ]; then
         kea -h
         return 1
     fi
-    
+
     if [ "$1" != "-n" ]; then
         printf "First argument must be -n\n"
         kea -h
         return 1
     fi
-    
+
     namespace="$2"
     app_name="$3"
     shift 3
-    
+
     pod_name=$(kubectl -n "$namespace" get pod -l app="$app_name" \
         -o jsonpath="{.items[?(@.status.phase=='Running')].metadata.name}"| tr ' ' '\n' | head -n 1)
-    
+
     if [ -z "$pod_name" ]; then
         printf "Error: No running pod found for app '%s' in namespace '%s'\n" "$app_name" "$namespace"
         return 1
     fi
-    
+
     if [ "$#" -eq 0 ]; then
         kubectl -n "$namespace" exec -it "$pod_name" -- python manage.py shell
     else
@@ -71,7 +71,7 @@ _kea_completion() {
     local cur prev opts
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
-    
+
     opts="-n"
 
     case "$prev" in
@@ -187,7 +187,7 @@ _kps_completion() {
     local cur prev opts
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
-    
+
     opts="-n"
 
     if [ "$prev" == "-n" ]; then
@@ -214,10 +214,10 @@ kla() {
         kla -h
         return 1
     fi
-    
+
     namespace="$2"
     app_label="$3"
-    
+
     kubectl -n "$namespace" logs -f -l app="$app_label" --tail=250 --max-log-requests 10
 }
 
