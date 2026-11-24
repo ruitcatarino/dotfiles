@@ -1,19 +1,31 @@
-if [ $UID -eq 0 ]; then NCOLOR="red"; else NCOLOR="yellow"; fi
+autoload -Uz colors add-zsh-hook vcs_info
+colors
+setopt PROMPT_SUBST
 
-KC_COLOR="cyan"
+NCOLOR=$([[ $EUID -eq 0 ]] && echo red || echo yellow)
 
-function kubectl_context() {
-    kubectl config current-context 2>/dev/null
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:git:*' formats 'git:%b%c%u'
+zstyle ':vcs_info:git:*' stagedstr '+'
+zstyle ':vcs_info:git:*' unstagedstr '*'
+
+update_prompt() {
+    KUBE_CONTEXT=$(kubectl config current-context 2>/dev/null)
+    vcs_info
+
+    if [[ -n "$KUBE_CONTEXT" ]]; then
+        PROMPT="%F{cyan}<${KUBE_CONTEXT}>%f "
+    else
+        PROMPT=""
+    fi
+
+    PROMPT+=" %F{$NCOLOR}%3~%f "
 }
 
-PROMPT='%{$fg[$KC_COLOR]%}<$(kubectl_context)> %{$fg[$NCOLOR]%}%c ➤ %{$reset_color%}'
-RPROMPT='%{$fg[$NCOLOR]%} $(git_prompt_info)%{$reset_color%}'
+add-zsh-hook precmd update_prompt
 
-ZSH_THEME_GIT_PROMPT_PREFIX="git:"
-ZSH_THEME_GIT_PROMPT_SUFFIX=""
-ZSH_THEME_GIT_PROMPT_DIRTY="*"
-ZSH_THEME_GIT_PROMPT_CLEAN=""
+RPROMPT='%F{$NCOLOR}${vcs_info_msg_0_}%f'
 
-# See https://geoff.greer.fm/lscolors/
 export LSCOLORS="exfxcxdxbxbxbxbxbxbxbx"
-export LS_COLORS="di=34;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=31;40:cd=31;40:su=31;40:sg=31;40:tw=31;40:ow=31;40:"
+export LS_COLORS="di=34:ln=35:so=32:pi=33:ex=31:bd=31:cd=31:su=31:sg=31:tw=31:ow=31"
