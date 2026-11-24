@@ -1,0 +1,25 @@
+[cursor]
+unfocused_hollow = true
+
+[cursor.style]
+blinking = "Never"
+shape = "Beam"
+
+[font]
+size = 10
+
+[font.normal]
+family = "JetBrains Mono"
+
+[[mouse.bindings]]
+action = "Paste"
+mouse = "Right"
+
+[selection]
+save_to_clipboard = true
+
+[window.dimensions]
+columns = 180
+lines = 40
+
+[mouse]
